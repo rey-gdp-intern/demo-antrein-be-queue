@@ -125,7 +125,7 @@ jobs:
       - name: Connect and apply to EKS
         run: |
           cat ~/.aws/config
-          aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }} --profile gl-exploration
+          aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
           kubectl apply -f k8s/${{ env.BRANCH }}.yml
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
