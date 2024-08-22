@@ -32,6 +32,7 @@ jobs:
       IMAGE_TAG: ${{ steps.set-env.outputs.IMAGE_TAG }}
       IMAGE_NAME: ${{ steps.set-env.outputs.IMAGE_NAME }}
       SHORT_SHA: ${{ steps.set-env.outputs.SHORT_SHA }}
+      BRANCH: ${{ env.BRANCH }}
     steps:
       - name: Set environment variables
         id: set-env
@@ -44,6 +45,7 @@ jobs:
 
   dockerize-and-push:
     needs: setup-environment
+    environment: ${{ needs.setup-environment.outputs.BRANCH }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
@@ -83,6 +85,7 @@ jobs:
   deploy-to-server-eks:
     needs: [setup-environment, dockerize-and-push]
     runs-on: ubuntu-latest
+    environment: ${{ needs.setup-environment.outputs.BRANCH }}
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v2
